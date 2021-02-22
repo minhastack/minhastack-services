@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
   res.send('MinhaStack Services');
 });
 
-app.get('/qrcode', qrCodeService);
+app.post('/qrcode', qrCodeService);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`) 

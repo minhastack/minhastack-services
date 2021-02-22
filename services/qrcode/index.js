@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
 async function generateQrCode(content){
     return new Promise((resolve, reject) => {
         var QRCode = require('qrcode')
-        QRCode.toDataURL('I am a pony!', function (err, url) {
+        QRCode.toDataURL(content, function (err, url) {
             if(url){
                 resolve({
                     base64Image: url
