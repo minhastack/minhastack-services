@@ -35,7 +35,7 @@ async function generateBarCode(content){
             });
 
             const svgText = xmlSerializer.serializeToString(svgNode);
-            const pngBase64 = await svgToImg.from(svgText).toPng({ encoding: "base64" })
+            const pngBase64 = await svgToImg.from(svgText).toJpeg({ encoding: "base64" })
 
             resolve({
                 base64Image: pngBase64
