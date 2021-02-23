@@ -14,6 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/qrcode', qrCodeService);
+app.post('/barcode', barCodeService);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`) 
