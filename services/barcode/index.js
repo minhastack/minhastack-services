@@ -1,39 +1,42 @@
 module.exports = async (req, res) => {
-    let core = require('../../core')
-    let content = req.body.content;
-    let returnData = {};
-    
-    if(!content){
-        returnData = core.internalCodes.getCodeObject("QRCODE0001");
-    }
+    try{
+        let core = require('../../core')
+        let content = req.body.content;
+        let returnData = {};
+        
+        if(!content){
+            returnData = core.internalCodes.getCodeObject("BARCODE0001");
+        }
 
-    if(content){
-        returnData = await generateQrCode(content);
-    }
+        if(content){
+            returnData = await generateBarCode(content);
+        }
 
-    res.send(returnData)
+        res.send(returnData)
+    } catch(e){
+        res.send({
+            error: e.message
+        });
+    }
 }
 
-async function generateQrCode(content){
+async function generateBarCode(content){
     return new Promise((resolve, reject) => {
-        var barcode = require('barcode')
-        
-        var code39 = barcode('code39', {
-            data: content,
-            width: 400,
-            height: 100,
-        });
-
-        code39.getBase64(content, function (err, url) {
-            if(url){
-                resolve({
-                    base64Image: url
-                })
-            } else if(err) {
-                reject({
-                    error: err
-                })
-            }
-        })
+        try{
+            var JsBarcode = require('jsbarcode');
+ 
+            // Canvas v2
+            var { createCanvas } = require("canvas");
+            
+            // Canvas v2
+            var canvas = createCanvas();
+            
+            JsBarcode(canvas, content);
+            resolve({
+                base64Image: canvas.toDataURL()
+            })
+        } catch(e){
+            reject(e.message);
+        }
     });
 }
