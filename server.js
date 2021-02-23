@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 const qrCodeService = require('./services/qrcode');
+const barCodeService = require('./services/barcode');
 
 app.get('/', (req, res) => {
   res.send('MinhaStack Services');
