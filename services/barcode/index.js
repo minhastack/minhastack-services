@@ -23,7 +23,6 @@ module.exports = async (req, res) => {
 async function generateBarCode(content){
     return new Promise(async (resolve, reject) => {
         try{
-            const svgToImg = require("svg-to-img");
             const JsBarcode = require('jsbarcode');
             const { DOMImplementation, XMLSerializer } = require('xmldom');
             const xmlSerializer = new XMLSerializer();
@@ -35,10 +34,12 @@ async function generateBarCode(content){
             });
 
             const svgText = xmlSerializer.serializeToString(svgNode);
-            const pngBase64 = await svgToImg.from(svgText).toJpeg({ encoding: "base64" })
-
+            const svg64 = encodeURIComponent(svgText);
+            const b64Start = 'data:image/svg+xml;charset=utf-8,';
+            const b64 = b64Start + svg64;
+            
             resolve({
-                base64Image: pngBase64
+                base64Image: b64
             })
         } catch(e){
             console.log(e.message)
