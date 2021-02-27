@@ -12,6 +12,7 @@
     "nodemon": "^2.0.7",
     "qrcode": "^1.4.4",
     "svg-to-img": "^2.0.9",
+    "xlsx": "^0.16.9",
     "xmldom": "^0.4.0"
   },
   "devDependencies": {},
