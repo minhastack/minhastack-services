@@ -10,6 +10,7 @@ app.use(cors());
 const qrCodeService = require('./services/qrcode');
 const barCodeService = require('./services/barcode');
 const multidataService = require('./services/multidata');
+const mlService = require('./services/ml');
 
 app.get('/', (req, res) => {
   res.send('MinhaStack Services');
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 app.post('/qrcode', qrCodeService);
 app.post('/barcode', barCodeService);
 app.post('/multidata', multidataService);
+app.post('/ml', mlService);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`) 
