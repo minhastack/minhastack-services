@@ -65,7 +65,7 @@ async function generateVideo(content){
                 
                 let base64Video = readAsBase64(output);
                 
-                images.map((imageAddress) => {
+                imagesData.map((imageAddress) => {
                     removeFile(imageAddress.path);
                 });
 
