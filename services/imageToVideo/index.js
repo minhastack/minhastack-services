@@ -58,11 +58,11 @@ async function generateVideo(content, audio=[], imageTimeOnScreen=5){
                 size: '640x?',
                 audioBitrate: '128k',
                 audioChannels: 2,
-                format: 'mp4',
+                format: 'avi',
                 pixelFormat: 'yuv420p'
             }
             
-            let newFileAddress = genereateFileAddress( 'mp4');
+            let newFileAddress = genereateFileAddress( 'avi');
             let videoShowElement = videoshow(imagesData, videoOptions);
 
             if(audioData.length > 0){
