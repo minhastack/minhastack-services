@@ -4,6 +4,7 @@ const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 21624
 
+app.use(express.bodyParser({limit: '50mb'}));
 app.use(express.json());
 app.use(cors());
 
