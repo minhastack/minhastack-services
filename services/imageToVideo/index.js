@@ -54,26 +54,29 @@ async function generateVideo(content){
             .save(newFileAddress.fileAddress)
             .on('start', function (command) {
                 console.log('ffmpeg process started:', command)
+                throw new Error(command);
             })
             .on('error', function (err, stdout, stderr) {
                 console.error('Error:', err)
                 console.error('ffmpeg stderr:', stderr)
+                throw new Error(stderr);
             })
             .on('end', function (output) {
                 console.error('Video created in:', output)
-            })
-            
-            let base64Video = readAsBase64(newFileAddress);
-            
-            images.map((imageAddress) => {
-                removeFile(imageAddress.path);
-            });
+                
+                let base64Video = readAsBase64(output);
+                
+                images.map((imageAddress) => {
+                    removeFile(imageAddress.path);
+                });
 
-            removeFile(newFileAddress);
-            
-            resolve({
-                base64Video
+                removeFile(output);
+                
+                resolve({
+                    base64Video
+                })
             })
+            
         } catch(e){
             console.log(e.message)
             reject(e.message);
