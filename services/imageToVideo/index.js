@@ -49,20 +49,20 @@ async function generateVideo(content, audio=[], imageTimeOnScreen=5){
             const videoshow = require('videoshow');
             
             var videoOptions = {
-                fps: 25,
+                fps: 12,
                 loop: imageTimeOnScreen, // seconds
                 transition: true,
                 transitionDuration: 1, // seconds
-                videoBitrate: 1024,
+                videoBitrate: 512,
                 videoCodec: 'libx264',
                 size: '640x?',
                 audioBitrate: '128k',
                 audioChannels: 2,
-                format: 'avi',
+                format: 'mp4',
                 pixelFormat: 'yuv420p'
             }
             
-            let newFileAddress = genereateFileAddress( 'avi');
+            let newFileAddress = genereateFileAddress( 'mp4');
             let videoShowElement = videoshow(imagesData, videoOptions);
 
             if(audioData.length > 0){
