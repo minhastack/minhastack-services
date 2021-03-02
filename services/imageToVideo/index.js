@@ -98,11 +98,11 @@ function decodeBase64Image(dataString) {
 }
 
 let uploadBase64Image = function(imgB64Data){
-    const mime = require('mime-types');
+    const mime = require('mime');
     var decodedImg = decodeBase64Image(imgB64Data);
     var imageBuffer = decodedImg.data;
     var type = decodedImg.type;
-    var extension = mime.extension(type);
+    var extension = mime.getExtension(type);
     const {fileAddress, fileName } = genereateFileAddress(extension);
 
     try{
