@@ -31,6 +31,8 @@ async function generateVideo(content, audio=[]){
             content.map(function(contentBase64){
                 let uploadedData = uploadBase64Image(contentBase64);
                 uploadedImagesInfo.push(uploadedData);
+                console.log(`New image: ${uploadedData.fileAddress}`);
+
                 imagesData.push({
                     path: uploadedData.fileAddress
                 });
@@ -39,27 +41,28 @@ async function generateVideo(content, audio=[]){
             audio.map(function(contentBase64){
                 let uploadedData = uploadBase64Image(contentBase64);
                 uploadedAudioData.push(uploadedData);
+                console.log(`New audio: ${uploadedData.fileAddress}`);
                 audioData.push(uploadedData.fileAddress);
             })
 
             const videoshow = require('videoshow');
             
-            var videoOptions = {
-                fps: 25,
-                loop: 5, // seconds
-                transition: true,
-                transitionDuration: 1, // seconds
-                videoBitrate: 1024,
-                videoCodec: 'libx264',
-                size: '640x?',
-                audioBitrate: '128k',
-                audioChannels: 2,
-                format: 'mp4',
-                pixelFormat: 'yuv420p'
-            }
+            // var videoOptions = {
+            //     fps: 25,
+            //     loop: 5, // seconds
+            //     transition: true,
+            //     transitionDuration: 1, // seconds
+            //     videoBitrate: 1024,
+            //     videoCodec: 'libx264',
+            //     size: '640x?',
+            //     audioBitrate: '128k',
+            //     audioChannels: 2,
+            //     format: 'mp4',
+            //     pixelFormat: 'yuv420p'
+            // }
             
             let newFileAddress = genereateFileAddress( 'mp4');
-            let videoShowElement = videoshow(imagesData, videoOptions);
+            let videoShowElement = videoshow(imagesData);
 
             if(audioData.length > 0){
                 videoShowElement.audio(audioData[0])
