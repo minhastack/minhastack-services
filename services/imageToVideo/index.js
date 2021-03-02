@@ -35,22 +35,22 @@ async function generateVideo(content){
 
             const videoshow = require('videoshow');
             
-            var videoOptions = {
-                fps: 25,
-                loop: 5, // seconds
-                transition: true,
-                transitionDuration: 1, // seconds
-                videoBitrate: 1024,
-                videoCodec: 'libx264',
-                size: '640x?',
-                audioBitrate: '128k',
-                audioChannels: 2,
-                format: 'mp4',
-                pixelFormat: 'yuv420p'
-            }
+            // var videoOptions = {
+            //     fps: 25,
+            //     loop: 5, // seconds
+            //     transition: true,
+            //     transitionDuration: 1, // seconds
+            //     videoBitrate: 1024,
+            //     videoCodec: 'libx264',
+            //     size: '640x?',
+            //     audioBitrate: '128k',
+            //     audioChannels: 2,
+            //     format: 'mp4',
+            //     pixelFormat: 'yuv420p'
+            // }
             
             let newFileAddress = genereateFileAddress( 'mp4');
-            videoshow(imagesData, videoOptions)
+            videoshow(imagesData)
             .save(newFileAddress)
             .on('start', function (command) {
                 console.log('ffmpeg process started:', command)
