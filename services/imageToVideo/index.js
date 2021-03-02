@@ -54,7 +54,6 @@ async function generateVideo(content){
             .save(newFileAddress.fileAddress)
             .on('start', function (command) {
                 console.log('ffmpeg process started:', command)
-                throw new Error(command);
             })
             .on('error', function (err, stdout, stderr) {
                 console.error('Error:', err)
