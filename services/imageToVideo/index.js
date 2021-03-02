@@ -59,8 +59,13 @@ async function generateVideo(content, audio=[]){
             }
             
             let newFileAddress = genereateFileAddress( 'mp4');
-            videoshow(imagesData, videoOptions)
-            .audio(audioData)
+            let videoShowElement = videoshow(imagesData, videoOptions);
+
+            if(audioData.length > 0){
+                videoShowElement.audio(audioData[0])
+            }
+
+            videoShowElement
             .save(newFileAddress.fileAddress)
             .on('start', function (command) {
                 console.log('ffmpeg process started:', command)
