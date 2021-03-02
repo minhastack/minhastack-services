@@ -88,7 +88,7 @@ async function generateVideo(content, audio=[]){
                 });
                 
                 audioData.map((audioAddress) => {
-                    removeFile(audioAddress.path);
+                    removeFile(audioAddress);
                 });
 
                 removeFile(output);
