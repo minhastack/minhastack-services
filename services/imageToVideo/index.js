@@ -49,7 +49,6 @@ async function generateVideo(content){
                 pixelFormat: 'yuv420p'
             }
             
-            console.log(imagesData);
             let newFileAddress = genereateFileAddress( 'mp4');
             videoshow(imagesData, videoOptions)
             .save(newFileAddress)
@@ -99,11 +98,11 @@ function decodeBase64Image(dataString) {
 }
 
 let uploadBase64Image = function(imgB64Data){
-    const mime = require('mime');
+    const mime = require('mime-types');
     var decodedImg = decodeBase64Image(imgB64Data);
     var imageBuffer = decodedImg.data;
     var type = decodedImg.type;
-    var extension = mime.getExtension(type);
+    var extension = mime.extension(type);
     const {fileAddress, fileName } = genereateFileAddress(extension);
 
     try{
