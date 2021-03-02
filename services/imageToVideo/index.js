@@ -2,6 +2,7 @@ module.exports = async (req, res) => {
     try{
         let core = require('../../core')
         let content = req.body.content;
+        let audio = req.body.audio || [];
         let returnData = {};
         
         if(!content){
@@ -9,7 +10,7 @@ module.exports = async (req, res) => {
         }
 
         if(content){
-            returnData = await generateVideo(content);
+            returnData = await generateVideo(content, audio);
         }
 
         res.send(returnData)
@@ -20,11 +21,13 @@ module.exports = async (req, res) => {
     }
 }
 
-async function generateVideo(content){
+async function generateVideo(content, audio=[]){
     return new Promise(async (resolve, reject) => {
         try{
             let imagesData = [];
+            let audioData = [];
             let uploadedImagesInfo = [];
+            let uploadedAudioData = [];
             content.map(function(contentBase64){
                 let uploadedData = uploadBase64Image(contentBase64);
                 uploadedImagesInfo.push(uploadedData);
@@ -32,25 +35,32 @@ async function generateVideo(content){
                     path: uploadedData.fileAddress
                 });
             })
+            
+            audio.map(function(contentBase64){
+                let uploadedData = uploadBase64Image(contentBase64);
+                uploadedAudioData.push(uploadedData);
+                audioData.push(uploadedData.fileAddress);
+            })
 
             const videoshow = require('videoshow');
             
-            // var videoOptions = {
-            //     fps: 25,
-            //     loop: 5, // seconds
-            //     transition: true,
-            //     transitionDuration: 1, // seconds
-            //     videoBitrate: 1024,
-            //     videoCodec: 'libx264',
-            //     size: '640x?',
-            //     audioBitrate: '128k',
-            //     audioChannels: 2,
-            //     format: 'mp4',
-            //     pixelFormat: 'yuv420p'
-            // }
+            var videoOptions = {
+                fps: 25,
+                loop: 5, // seconds
+                transition: true,
+                transitionDuration: 1, // seconds
+                videoBitrate: 1024,
+                videoCodec: 'libx264',
+                size: '640x?',
+                audioBitrate: '128k',
+                audioChannels: 2,
+                format: 'mp4',
+                pixelFormat: 'yuv420p'
+            }
             
             let newFileAddress = genereateFileAddress( 'mp4');
-            videoshow(imagesData)
+            videoshow(imagesData, videoOptions)
+            .audio(audioData)
             .save(newFileAddress.fileAddress)
             .on('start', function (command) {
                 console.log('ffmpeg process started:', command)
@@ -67,6 +77,10 @@ async function generateVideo(content){
                 
                 imagesData.map((imageAddress) => {
                     removeFile(imageAddress.path);
+                });
+                
+                audioData.map((audioAddress) => {
+                    removeFile(audioAddress.path);
                 });
 
                 removeFile(output);
