@@ -54,10 +54,12 @@ async function generateVideo(content, audio=[], imageTimeOnScreen=5){
                 transition: true,
                 transitionDuration: 1, // seconds
                 videoBitrate: 512,
-                videoCodec: 'libx264',
+                videoCodec: 'libx265',
                 size: '640x?',
-                format: 'mp4',
-                pixelFormat: 'yuv420p'
+                audioBitrate: '128k',
+                audioChannels: 2,
+                outputOptions: '-crf 28',
+                format: 'mp4'
             }
             
             let newFileAddress = genereateFileAddress( 'mp4');
