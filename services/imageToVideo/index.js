@@ -51,7 +51,7 @@ async function generateVideo(content){
             
             let newFileAddress = genereateFileAddress( 'mp4');
             videoshow(imagesData)
-            .save(newFileAddress)
+            .save(newFileAddress.fileAddress)
             .on('start', function (command) {
                 console.log('ffmpeg process started:', command)
             })
