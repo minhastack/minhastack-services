@@ -53,7 +53,7 @@ async function generateVideo(content, audio=[], imageTimeOnScreen=5){
                 loop: imageTimeOnScreen, // seconds
                 transition: true,
                 transitionDuration: 1, // seconds
-                videoBitrate: 512,
+                videoBitrate: 256,
                 videoCodec: 'libx264',
                 size: '640x?',
                 audioBitrate: '128k',
