@@ -58,6 +58,7 @@ async function generateVideo(content, audio=[], imageTimeOnScreen=5){
                 size: '640x?',
                 audioBitrate: '128k',
                 audioChannels: 2,
+                pixelFormat: 'yuv420p',
                 format: 'mp4'
             }
             
