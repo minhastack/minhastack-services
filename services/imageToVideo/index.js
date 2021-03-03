@@ -49,11 +49,11 @@ async function generateVideo(content, audio=[], imageTimeOnScreen=5){
             const videoshow = require('videoshow');
             
             var videoOptions = {
-                fps: 12,
+                fps: 6,
                 loop: imageTimeOnScreen, // seconds
                 transition: true,
                 transitionDuration: 1, // seconds
-                videoBitrate: 256,
+                videoBitrate: 512,
                 videoCodec: 'libx264',
                 size: '640x?',
                 audioBitrate: '128k',
