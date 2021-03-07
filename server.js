@@ -1,6 +1,15 @@
 const express = require('express')
 const cors = require('cors')
 
+// let REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+// let workQueue = new Queue('work', REDIS_URL);
+// let workers = process.env.WEB_CONCURRENCY || 2;
+// let maxJobsPerWorker = 50;
+
+// workQueue.process(maxJobsPerWorker, async (job) => {
+
+// });
+
 const app = express()
 const port = process.env.PORT || 21624
 

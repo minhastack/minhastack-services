@@ -1,17 +1,41 @@
+let temporaryJob = {};
+
 module.exports = async (req, res) => {
     try{
         let core = require('../../core')
         let content = req.body.content;
         let audio = req.body.audio || [];
+        let jobId = req.body.jobId || false;
         let imageTimeOnScreen = req.body.imageTimeOnScreen || 5;
         let returnData = {};
         
-        if(!content){
-            returnData = core.internalCodes.getCodeObject("BARCODE0001");
+        let flowStep;
+        if(jobId){
+            flowStep = 'GET_JOB';
+        } else {
+            flowStep = 'VERIFY_JOB';
         }
 
-        if(content){
-            returnData = await generateVideo(content, audio, imageTimeOnScreen);
+        switch(flowStep){
+            case 'GET_JOB':
+
+                if(!content){
+                    returnData = core.internalCodes.getCodeObject("BARCODE0001");
+                }
+
+                if(content){
+                    returnData = uploadFiles(content, audio, imageTimeOnScreen);
+                }
+
+                break;
+            
+            case 'VERIFY_JOB':
+
+                if(jobId){
+                    returnData = temporaryJob[jobId];
+                }
+
+                break;
         }
 
         res.send(returnData)
@@ -22,29 +46,52 @@ module.exports = async (req, res) => {
     }
 }
 
-async function generateVideo(content, audio=[], imageTimeOnScreen=5){
+async function uploadFiles(content, audio=[], imageTimeOnScreen=[]){
+    let imagesData = [];
+    let audioData = [];
+    let uploadedImagesInfo = [];
+    let uploadedAudioData = [];
+
+    content.map(function(contentBase64){
+        let uploadedData = uploadBase64Image(contentBase64);
+        uploadedImagesInfo.push(uploadedData);
+        console.log(`New image: ${uploadedData.fileAddress}`);
+
+        imagesData.push({
+            path: uploadedData.fileAddress
+        });
+    })
+    
+    audio.map(function(contentBase64){
+        let uploadedData = uploadBase64Image(contentBase64);
+        uploadedAudioData.push(uploadedData);
+        console.log(`New audio: ${uploadedData.fileAddress}`);
+        audioData.push(uploadedData.fileAddress);
+    })
+
+    let jobId = uuid();
+    temporaryJob[jobId] = {
+        imagesData,
+        audioData,
+        uploadedImagesInfo,
+        uploadedAudioData,
+        imageTimeOnScreen,
+        jobId
+    }
+
+    return temporaryJob[jobId];
+}
+
+async function generateVideo({
+    imagesData,
+    audioData,
+    uploadedImagesInfo,
+    uploadedAudioData, 
+    audio=[], 
+    imageTimeOnScreen=5
+}){
     return new Promise(async (resolve, reject) => {
         try{
-            let imagesData = [];
-            let audioData = [];
-            let uploadedImagesInfo = [];
-            let uploadedAudioData = [];
-            content.map(function(contentBase64){
-                let uploadedData = uploadBase64Image(contentBase64);
-                uploadedImagesInfo.push(uploadedData);
-                console.log(`New image: ${uploadedData.fileAddress}`);
-
-                imagesData.push({
-                    path: uploadedData.fileAddress
-                });
-            })
-            
-            audio.map(function(contentBase64){
-                let uploadedData = uploadBase64Image(contentBase64);
-                uploadedAudioData.push(uploadedData);
-                console.log(`New audio: ${uploadedData.fileAddress}`);
-                audioData.push(uploadedData.fileAddress);
-            })
 
             const videoshow = require('videoshow');
             
@@ -150,6 +197,7 @@ let genereateFileAddress = (extension) => {
 }
 
 const fs = require('fs');
+const { uuid } = require('uuidv4');
 let readAsBase64 = (address) => {
     const contents = fs.readFileSync(address, {encoding: 'base64'});
     return contents;
@@ -158,3 +206,17 @@ let readAsBase64 = (address) => {
 let removeFile = (address) => {
     return fs.unlinkSync(address);
 }
+
+setInterval(() => {
+    temporaryJob.map(async function(jobElement, key){
+        if(!jobElement.running){
+            jobElement.running = true;
+            let videoData = await generateVideo(jobElement);
+            jobElement.base64Video = videoData.base64Video;
+            
+            setTimeout(function(){
+                delete temporaryJob[jobElement.jobId];
+            }, 2 * 60 * 1000);
+        }
+    })
+}, 1000);
