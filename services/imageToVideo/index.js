@@ -208,7 +208,8 @@ let removeFile = (address) => {
 }
 
 setInterval(() => {
-    temporaryJob.map(async function(jobElement, key){
+    Object.keys(temporaryJob).map(async function(key){
+        let jobElement = temporaryJob[key];
         if(!jobElement.running){
             jobElement.running = true;
             let videoData = await generateVideo(jobElement);
