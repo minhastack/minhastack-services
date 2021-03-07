@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
         let returnData = {};
         
         let flowStep;
-        if(jobId){
+        if(!jobId){
             flowStep = 'GET_JOB';
         } else {
             flowStep = 'VERIFY_JOB';
