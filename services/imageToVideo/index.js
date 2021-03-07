@@ -69,7 +69,8 @@ async function uploadFiles(content, audio=[], imageTimeOnScreen=[]){
         audioData.push(uploadedData.fileAddress);
     })
 
-    let jobId = uuid();
+    const { v4 } = require('uuid');
+    let jobId = v4();
     temporaryJob[jobId] = {
         imagesData,
         audioData,
