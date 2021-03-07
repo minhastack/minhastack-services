@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
                 }
 
                 if(content){
-                    returnData = uploadFiles(content, audio, imageTimeOnScreen);
+                    returnData = await uploadFiles(content, audio, imageTimeOnScreen);
                 }
 
                 break;
