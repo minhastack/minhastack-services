@@ -21,7 +21,8 @@
     "uuidv4": "^6.2.6",
     "videoshow": "^0.1.12",
     "xlsx": "^0.16.9",
-    "xmldom": "^0.4.0"
+    "xmldom": "^0.4.0",
+    "pensador-api": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {
