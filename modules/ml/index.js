@@ -1,16 +1,16 @@
 module.exports = async (req, res) => {
     try{
-        let core = require('../../core')
+        let services = require('../../services')
         let selectedField = req.body.selectedField;
         let allData = req.body.allData;
         let returnData = {};
         
         if(!selectedField){
-            returnData = core.internalCodes.getCodeObject("QRCODE0001");
+            returnData = services.internalCodes.getCodeObject("QRCODE0001");
         }
         
         if(!allData){
-            returnData = core.internalCodes.getCodeObject("QRCODE0001");
+            returnData = services.internalCodes.getCodeObject("QRCODE0001");
         }
 
         if(selectedField && allData){

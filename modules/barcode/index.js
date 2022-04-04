@@ -1,11 +1,11 @@
 module.exports = async (req, res) => {
     try{
-        let core = require('../../core')
+        let services = require('../../services')
         let content = req.body.content;
         let returnData = {};
         
         if(!content){
-            returnData = core.internalCodes.getCodeObject("BARCODE0001");
+            returnData = services.internalCodes.getCodeObject("BARCODE0001");
         }
 
         if(content){

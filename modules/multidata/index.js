@@ -1,10 +1,10 @@
 module.exports = async (req, res) => {
-    let core = require('../../core')
+    let services = require('../../services')
     let content = req.body.content;
     let returnData = {};
     
     if(!content){
-        returnData = core.internalCodes.getCodeObject("QRCODE0001");
+        returnData = services.internalCodes.getCodeObject("QRCODE0001");
     }
 
     if(content){

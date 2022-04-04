@@ -2,7 +2,7 @@ let temporaryJob = {};
 
 module.exports = async (req, res) => {
     try{
-        let core = require('../../core')
+        let core = require('../../services')
         let content = req.body.content;
         let audio = req.body.audio || [];
         let jobId = req.body.jobId || false;
